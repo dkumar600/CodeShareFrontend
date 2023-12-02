@@ -1,4 +1,5 @@
-import { useState, forwardRef } from "react";
+import axios from "axios";
+import { useState, forwardRef, useEffect } from "react";
 import { Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 const supportedLangList = {
@@ -84,16 +85,26 @@ const supportedLangList = {
 export default function NavBar(props) {
   const [selectedLang, setSelectLang] = useState("PlainText");
   const Location = useLocation();
+  useEffect(()=>{
+    if(location.pathname.split('/')[2]){
+      axios.get(`https://codesharebackendapi.onrender.com/${location.pathname.split('/')[2]}`).then((res)=>{
+        const selectedKey = Object.keys(supportedLangList).find(key=> res.data.language == supportedLangList[key]);
+        setSelectLang(selectedKey);
+      });
+      
+    }
+  },[]);
   function onSelectLang(value) {
     setSelectLang(value);
-    props.setLang(supportedLangList[value]);
+    console.log(value);
+    props.setLang(()=> supportedLangList[value]);
   }
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Navbar.Brand>Code Share</Navbar.Brand>
-          {/* onClick={() => props.setOptionHide(() => 0)} */}
+          
           <Nav className="me-auto">
             <Link
               className="p-2"
@@ -102,7 +113,7 @@ export default function NavBar(props) {
             >
               Home
             </Link>
-            {Location.pathname === "/code" ? (
+            {Location.pathname.startsWith('/code/') ? (
               <Dropdown onSelect={onSelectLang}>
                 <Dropdown.Toggle variant="dark" id="dropdown-basic">
                   {selectedLang}

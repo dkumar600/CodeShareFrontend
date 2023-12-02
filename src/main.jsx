@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 import EditorTab from "./EditorTab";
 import HomePage from "./HomePage";
-//hhhhhhhh
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,7 +15,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/code",
+        path: "/code/:id",
         element: <EditorTab />,
       },
     ],
