@@ -45,7 +45,14 @@ export default function EditorTab() {
       });
     }
   },[codeSave,Lang,editorCode]);
-
+  function textCheck(editor){
+    const mText = document.querySelector(".monaco-text");
+    if (editor.getValue()) {
+      mText.style.display = "none";
+    } else {
+      mText.style.display = "flex";
+    }
+  }
   function preTextRemove(value) {
     const mText = document.querySelector(".monaco-text");
     if (value) {
@@ -55,6 +62,7 @@ export default function EditorTab() {
     }
     setEditorCode(()=>value?value:'');
   }
+  
   return (
     <>
       <Editor
@@ -63,6 +71,7 @@ export default function EditorTab() {
         value={codeSave?codeSave.code:''}
         theme="hc-black"
         onChange={preTextRemove}
+        onMount={textCheck}
         
       />
       <div className="monaco-text"></div>
