@@ -44,6 +44,15 @@ export default function EditorTab() {
         console.log(error);
       });
     }
+    if(codeSave?.code){
+      const mText = document.querySelector(".monaco-text");
+    if (codeSave.code) {
+      mText.style.display = "flex";
+    } else {
+      mText.style.display = "none";
+      
+    }
+    }
   },[codeSave,Lang,editorCode]);
 
   function preTextRemove(value) {
